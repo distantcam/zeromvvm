@@ -20,9 +20,15 @@ namespace ZeroMVVM
 
             ConventionManager = builder.Build();
 
+            var typesToRegister = ConventionManager.FindAll(Default.ViewConvention)
+                .Concat(ConventionManager.FindAll(Default.ViewModelConvention))
+                ;
+
+            Default.SetupIoC(typesToRegister);
+
             var viewType = ConventionManager.FindAll(Default.ViewConvention, typeof(T)).Single();
 
-            var view = System.Activator.CreateInstance(viewType);
+            var view = Default.GetInstance(viewType);
 
             ((Window)view).Show();
         }

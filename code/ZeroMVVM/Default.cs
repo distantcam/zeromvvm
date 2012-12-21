@@ -1,5 +1,5 @@
 using System;
-using System.Reflection;
+using System.Collections.Generic;
 using ZeroMVVM.Conventions;
 
 namespace ZeroMVVM
@@ -20,6 +20,8 @@ namespace ZeroMVVM
 
         public static Type ViewConvention { get; set; }
 
+        public static dynamic IoC { get; set; }
+
         public static Func<string, dynamic> Logger
         {
             get { return logger; }
@@ -28,9 +30,13 @@ namespace ZeroMVVM
                 if (logger == value)
                     return;
                 logger = value;
-
                 SetupDefaultLoggerSettings();
             }
+        }
+
+        public static object GetInstance(Type type)
+        {
+            return Activator.CreateInstance(type);
         }
 
         private static void SetupDefaultLoggerSettings()
@@ -43,9 +49,9 @@ namespace ZeroMVVM
 
         private static void ConfigureDefaultNLog()
         {
-            var logManagerConfigProperty = Type.GetType("NLog.LogManager, NLog").GetProperty("Configuration");
+            dynamic logManager = new StaticMembersDynamicWrapper(Type.GetType("NLog.LogManager, NLog"));
 
-            if (logManagerConfigProperty.GetValue(null, null) != null)
+            if (logManager.Configuration != null)
                 return;
 
             dynamic config = Activator.CreateInstance("NLog", "NLog.Config.LoggingConfiguration").Unwrap();
@@ -55,20 +61,42 @@ namespace ZeroMVVM
             target.Layout = "${level:uppercase=true} ${logger}: ${message}${onexception:inner=${newline}${exception:format=tostring}}";
             config.AddTarget("console", target);
 
-            var logLevelType = Type.GetType("NLog.LogLevel, NLog");
-            var enableLoggingForLevelMethod = Type.GetType("NLog.Config.LoggingRule, NLog").GetMethod("EnableLoggingForLevel");
+            dynamic logLevel = new StaticMembersDynamicWrapper(Type.GetType("NLog.LogLevel, NLog"));
 
             loggingRule.LoggerNamePattern = "*";
             loggingRule.Targets.Add(target);
             for (int i = 2; i < 6; i++)
             {
-                var level = logLevelType.InvokeMember("FromOrdinal", BindingFlags.Public | BindingFlags.Static | BindingFlags.InvokeMethod, null, null, new object[] { i });
-                enableLoggingForLevelMethod.Invoke(loggingRule, new object[] { level });
+                var level = logLevel.FromOrdinal(i);
+                loggingRule.EnableLoggingForLevel(level);
             }
 
             config.LoggingRules.Add(loggingRule);
 
-            logManagerConfigProperty.SetValue(null, config, null);
+            logManager.Configuration = config;
+        }
+
+        internal static void SetupIoC(IEnumerable<Type> typesToRegister)
+        {
+            if (IoC == null)
+                return;
+
+            if (IoC.GetType().Namespace == "Autofac" && IoC.GetType().Name == "ContainerBuilder")
+                ConfigureDefaultAutofac(typesToRegister);
+        }
+
+        private static void ConfigureDefaultAutofac(IEnumerable<Type> typesToRegister)
+        {
+            dynamic registrationExtensions = new StaticMembersDynamicWrapper(Type.GetType("Autofac.RegistrationExtensions, Autofac"));
+
+            foreach (var type in typesToRegister)
+            {
+                registrationExtensions.AsSelf(registrationExtensions.RegisterType(IoC, type));
+            }
+
+            //IoC.RegisterType(type)
+            //    .AsSelf()
+            //    .InstancePerDependency();
         }
     }
 }

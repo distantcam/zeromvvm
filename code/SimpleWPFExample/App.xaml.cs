@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Autofac;
 using NLog;
 using SimpleWPFExample.UI.Shell;
 using ZeroMVVM;
@@ -13,6 +14,10 @@ namespace SimpleWPFExample
         public App()
         {
             Default.Logger = l => LogManager.GetLogger(l);
+
+            var builder = new ContainerBuilder();
+
+            //Default.IoC = builder;
 
             AppRunner.Start<ShellViewModel>();
         }
