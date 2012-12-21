@@ -33,8 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Conventional">
-      <HintPath>..\packages\Conventional.2.0.0.34\lib\net40\Conventional.dll</HintPath>
+    <Reference Include="Conventional, Version=2.0.0.36, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Conventional.2.0.0.36\lib\net40\Conventional.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -58,6 +59,7 @@
     <Compile Include="Conventions\ViewConvention.cs" />
     <Compile Include="Conventions\ViewModelConvention.cs" />
     <Compile Include="Default.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

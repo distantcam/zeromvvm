@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
 using Conventional;
-using ZeroMVVM.Conventions;
 
 namespace ZeroMVVM
 {
@@ -11,15 +10,17 @@ namespace ZeroMVVM
 
         public static void Start<T>()
         {
+            ConventionBuilder.Logger = Default.Logger;
+
             var builder = new ConventionBuilder();
 
             builder.Scan<T>()
-                .For<ViewModelConvention>()
-                .For<ViewConvention>();
+                .For(Default.ViewConvention)
+                .For(Default.ViewModelConvention);
 
             ConventionManager = builder.Build();
 
-            var viewType = ConventionManager.FindAll<ViewConvention>(typeof(T)).Single();
+            var viewType = ConventionManager.FindAll(Default.ViewConvention, typeof(T)).Single();
 
             var view = System.Activator.CreateInstance(viewType);
 

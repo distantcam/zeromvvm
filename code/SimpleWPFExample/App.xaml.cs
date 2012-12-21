@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using NLog;
 using SimpleWPFExample.UI.Shell;
 using ZeroMVVM;
 
@@ -11,6 +12,8 @@ namespace SimpleWPFExample
     {
         public App()
         {
+            Default.Logger = l => LogManager.GetLogger(l);
+
             AppRunner.Start<ShellViewModel>();
         }
     }
