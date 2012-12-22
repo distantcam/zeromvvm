@@ -55,14 +55,16 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AppRunner.cs" />
+    <Compile Include="Dynamic\AutofacRegistrationHelper.cs" />
     <Compile Include="BindableObject.cs" />
     <Compile Include="Conventions\ViewConvention.cs" />
     <Compile Include="Conventions\ViewModelConvention.cs" />
     <Compile Include="Default.cs" />
+    <Compile Include="Container.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaticMembersDynamicWrapper.cs" />
+    <Compile Include="Dynamic\StaticMembersDynamicWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

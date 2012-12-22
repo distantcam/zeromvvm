@@ -15,9 +15,7 @@ namespace SimpleWPFExample
         {
             Default.Logger = l => LogManager.GetLogger(l);
 
-            var builder = new ContainerBuilder();
-
-            //Default.IoC = builder;
+            Default.IoC = new ContainerBuilder();
 
             AppRunner.Start<ShellViewModel>();
         }

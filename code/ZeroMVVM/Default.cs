@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using ZeroMVVM.Conventions;
+using ZeroMVVM.Dynamic;
 
 namespace ZeroMVVM
 {
     public static class Default
     {
         private static Func<string, dynamic> logger;
+        private static IContainer container;
 
         static Default()
         {
@@ -32,11 +34,6 @@ namespace ZeroMVVM
                 logger = value;
                 SetupDefaultLoggerSettings();
             }
-        }
-
-        public static object GetInstance(Type type)
-        {
-            return Activator.CreateInstance(type);
         }
 
         private static void SetupDefaultLoggerSettings()
@@ -76,13 +73,23 @@ namespace ZeroMVVM
             logManager.Configuration = config;
         }
 
+        internal static object GetInstance(Type type)
+        {
+            return container.GetInstance(type);
+        }
+
         internal static void SetupIoC(IEnumerable<Type> typesToRegister)
         {
             if (IoC == null)
-                return;
+            {
+                container = new Container();
+            }
 
             if (IoC.GetType().Namespace == "Autofac" && IoC.GetType().Name == "ContainerBuilder")
+            {
                 ConfigureDefaultAutofac(typesToRegister);
+                container = new AutofacContainer(Default.IoC);
+            }
         }
 
         private static void ConfigureDefaultAutofac(IEnumerable<Type> typesToRegister)
@@ -91,12 +98,12 @@ namespace ZeroMVVM
 
             foreach (var type in typesToRegister)
             {
-                registrationExtensions.AsSelf(registrationExtensions.RegisterType(IoC, type));
-            }
+                dynamic registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(IoC, type));
 
-            //IoC.RegisterType(type)
-            //    .AsSelf()
-            //    .InstancePerDependency();
+                dynamic limitType = registration.ActivatorData.Activator.LimitType;
+
+                registration.As(limitType);
+            }
         }
     }
 }
