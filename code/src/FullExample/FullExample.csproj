@@ -64,11 +64,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\SimpleWPFExample\UI\Shell\ShellView.xaml.cs">
+    <Compile Include="..\SimpleExample\UI\Shell\ShellView.xaml.cs">
       <Link>UI\Shell\ShellView.xaml.cs</Link>
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="..\SimpleWPFExample\UI\Shell\ShellViewModel.cs">
+    <Compile Include="..\SimpleExample\UI\Shell\ShellViewModel.cs">
       <Link>UI\Shell\ShellViewModel.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
@@ -109,7 +109,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="..\SimpleWPFExample\UI\Shell\ShellView.xaml">
+    <Page Include="..\SimpleExample\UI\Shell\ShellView.xaml">
       <Link>UI\Shell\ShellView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

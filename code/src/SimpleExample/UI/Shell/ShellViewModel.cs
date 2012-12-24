@@ -1,6 +1,6 @@
 ﻿using ZeroMVVM;
 
-namespace SimpleWPFExample.UI.Shell
+namespace SimpleExample.UI.Shell
 {
     internal class ShellViewModel : BindableObject
     {

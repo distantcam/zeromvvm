@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Autofac;
 using NLog;
-using SimpleWPFExample.UI.Shell;
+using SimpleExample.UI.Shell;
 using ZeroMVVM;
 
 namespace FullExample

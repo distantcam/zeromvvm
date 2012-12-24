@@ -1,8 +1,8 @@
 ﻿using System.Windows;
-using SimpleWPFExample.UI.Shell;
+using SimpleExample.UI.Shell;
 using ZeroMVVM;
 
-namespace SimpleWPFExample
+namespace SimpleExample
 {
     /// <summary>
     /// Interaction logic for App.xaml
