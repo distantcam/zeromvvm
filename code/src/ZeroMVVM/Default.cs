@@ -13,11 +13,14 @@ namespace ZeroMVVM
 
         static Default()
         {
+            AttachmentConvention = typeof(AttachmentConvention);
             ViewConvention = typeof(ViewConvention);
             ViewModelConvention = typeof(ViewModelConvention);
 
             Logger = t => new Logger();
         }
+
+        public static Type AttachmentConvention { get; set; }
 
         public static Type ViewModelConvention { get; set; }
 
@@ -84,18 +87,17 @@ namespace ZeroMVVM
             return container.GetInstance(type);
         }
 
-        internal static void SetupIoC(IEnumerable<Type> typesToRegister)
+        internal static void SetupIoC(IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister)
         {
             if (IoC == null)
             {
-                container = new Container();
+                container = new Container(viewModelTypesToRegister);
                 return;
             }
 
             if (IoC.GetType().Namespace == "Autofac" && IoC.GetType().Name == "ContainerBuilder")
             {
-                ConfigureDefaultAutofac(typesToRegister);
-                container = new AutofacContainer(Default.IoC);
+                container = new AutofacContainer(Default.IoC, typesToRegister, viewModelTypesToRegister);
             }
         }
 

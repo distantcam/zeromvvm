@@ -8,13 +8,15 @@ namespace ZeroMVVM.Dynamic
     public class AutofacRegistrationHelper : DynamicObject
     {
         private readonly dynamic instance;
-        private readonly dynamic type;
+        private readonly Type type;
 
         public AutofacRegistrationHelper(dynamic instance)
         {
             this.instance = instance;
             this.type = instance.GetType();
         }
+
+        public dynamic Instance { get { return instance; } }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {

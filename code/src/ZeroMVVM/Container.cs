@@ -1,6 +1,5 @@
 using System;
-using System.Dynamic;
-using System.Reflection;
+using System.Collections.Generic;
 
 namespace ZeroMVVM
 {
@@ -11,31 +10,29 @@ namespace ZeroMVVM
 
     internal class Container : IContainer
     {
+        private HashSet<Type> viewModelTypes;
+
+        public Container(IEnumerable<Type> viewModelTypes)
+        {
+            this.viewModelTypes = new HashSet<Type>(viewModelTypes);
+        }
+
         public object GetInstance(Type type)
         {
             if (type == typeof(IWindowManager))
                 return new WindowManager();
 
-            return Activator.CreateInstance(type);
-        }
-    }
+            var instance = Activator.CreateInstance(type);
 
-    internal class AutofacContainer : DynamicObject, IContainer
-    {
-        private dynamic internalContainer;
-        private MethodInfo resolveMethod;
+            if (viewModelTypes.Contains(type))
+            {
+                var attachments = AppRunner.ConventionManager.FindAll(Default.AttachmentConvention, type);
+                if (attachments != null)
+                    foreach (var a in attachments)
+                        ((IAttachment)Activator.CreateInstance(a)).AttachTo(instance);
+            }
 
-        public AutofacContainer(dynamic builder)
-        {
-            internalContainer = builder.Build();
-
-            resolveMethod = Type.GetType("Autofac.ResolutionExtensions, Autofac")
-                .GetMethod("Resolve", BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Static, null, new Type[] { internalContainer.GetType(), typeof(Type) }, null);
-        }
-
-        public object GetInstance(Type type)
-        {
-            return resolveMethod.Invoke(null, new object[] { internalContainer, type });
+            return instance;
         }
     }
 }

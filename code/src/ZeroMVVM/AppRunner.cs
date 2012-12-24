@@ -14,16 +14,17 @@ namespace ZeroMVVM
             var builder = new ConventionBuilder();
 
             builder.Scan<T>()
+                .For(Default.AttachmentConvention)
                 .For(Default.ViewConvention)
                 .For(Default.ViewModelConvention);
 
             ConventionManager = builder.Build();
 
             var typesToRegister = ConventionManager.FindAll(Default.ViewConvention)
-                .Concat(ConventionManager.FindAll(Default.ViewModelConvention))
+                .Concat(ConventionManager.FindAll(Default.AttachmentConvention))
                 ;
 
-            Default.SetupIoC(typesToRegister);
+            Default.SetupIoC(typesToRegister, ConventionManager.FindAll(Default.ViewModelConvention));
 
             var viewModel = Default.GetInstance(typeof(T));
 
