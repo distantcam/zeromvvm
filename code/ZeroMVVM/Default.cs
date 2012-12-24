@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ZeroMVVM.Conventions;
 using ZeroMVVM.Dynamic;
 
@@ -73,6 +74,11 @@ namespace ZeroMVVM
             logManager.Configuration = config;
         }
 
+        internal static T GetInstance<T>()
+        {
+            return (T)container.GetInstance(typeof(T));
+        }
+
         internal static object GetInstance(Type type)
         {
             return container.GetInstance(type);
@@ -83,6 +89,7 @@ namespace ZeroMVVM
             if (IoC == null)
             {
                 container = new Container();
+                return;
             }
 
             if (IoC.GetType().Namespace == "Autofac" && IoC.GetType().Name == "ContainerBuilder")
@@ -96,14 +103,29 @@ namespace ZeroMVVM
         {
             dynamic registrationExtensions = new StaticMembersDynamicWrapper(Type.GetType("Autofac.RegistrationExtensions, Autofac"));
 
+            dynamic registration;
+            Type limitType;
+
             foreach (var type in typesToRegister)
             {
-                dynamic registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(IoC, type));
+                // IoC.RegisterType(type)
+                registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(IoC, type));
 
-                dynamic limitType = registration.ActivatorData.Activator.LimitType;
-
+                // AsSelf()
+                limitType = registration.ActivatorData.Activator.LimitType;
                 registration.As(limitType);
             }
+
+            // IoC.RegisterType(typeof(WindowManager))
+            registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(IoC, typeof(WindowManager)));
+
+            // AsImplementedInterfaces()
+            limitType = registration.ActivatorData.Activator.LimitType;
+            var interfaces = limitType.GetInterfaces().Where((Func<Type, bool>)(t => t != typeof(IDisposable))).ToArray();
+            registration = new AutofacRegistrationHelper(registration.As(interfaces));
+
+            // SingleInstance()
+            registration.SingleInstance();
         }
     }
 }

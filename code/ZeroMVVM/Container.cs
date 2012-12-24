@@ -13,6 +13,9 @@ namespace ZeroMVVM
     {
         public object GetInstance(Type type)
         {
+            if (type == typeof(IWindowManager))
+                return new WindowManager();
+
             return Activator.CreateInstance(type);
         }
     }

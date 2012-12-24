@@ -55,6 +55,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AppRunner.cs" />
+    <Compile Include="WindowManager.cs" />
     <Compile Include="Dynamic\AutofacRegistrationHelper.cs" />
     <Compile Include="BindableObject.cs" />
     <Compile Include="Conventions\ViewConvention.cs" />

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Windows;
 using Conventional;
 
 namespace ZeroMVVM
@@ -26,11 +25,11 @@ namespace ZeroMVVM
 
             Default.SetupIoC(typesToRegister);
 
-            var viewType = ConventionManager.FindAll(Default.ViewConvention, typeof(T)).Single();
+            var viewModel = Default.GetInstance(typeof(T));
 
-            var view = Default.GetInstance(viewType);
+            var windowManager = Default.GetInstance<IWindowManager>();
 
-            ((Window)view).Show();
+            windowManager.ShowWindow(viewModel);
         }
     }
 }
