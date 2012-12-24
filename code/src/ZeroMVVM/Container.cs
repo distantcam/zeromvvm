@@ -19,9 +19,6 @@ namespace ZeroMVVM
 
         public object GetInstance(Type type)
         {
-            if (type == typeof(IWindowManager))
-                return new WindowManager();
-
             var instance = Activator.CreateInstance(type);
 
             if (viewModelTypes.Contains(type))

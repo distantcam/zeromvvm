@@ -5,21 +5,14 @@ using System.Windows.Navigation;
 
 namespace ZeroMVVM
 {
-    public interface IWindowManager
+    public static class WindowManager
     {
-        bool? ShowDialog(object viewModel);
-
-        void ShowWindow(object viewModel);
-    }
-
-    public class WindowManager : IWindowManager
-    {
-        public virtual bool? ShowDialog(object viewModel)
+        public static bool? ShowDialog(object viewModel)
         {
             return CreateWindow(viewModel, true).ShowDialog();
         }
 
-        public virtual void ShowWindow(object viewModel)
+        public static void ShowWindow(object viewModel)
         {
             NavigationWindow navWindow = null;
 
@@ -39,7 +32,7 @@ namespace ZeroMVVM
             }
         }
 
-        protected virtual Window CreateWindow(object viewModel, bool isDialog)
+        private static Window CreateWindow(object viewModel, bool isDialog)
         {
             var viewType = AppRunner.ConventionManager.FindAll(Default.ViewConvention, viewModel.GetType()).Single();
 
@@ -50,7 +43,7 @@ namespace ZeroMVVM
             return view;
         }
 
-        protected virtual Window EnsureWindow(object viewModel, object view, bool isDialog)
+        private static Window EnsureWindow(object viewModel, object view, bool isDialog)
         {
             var window = view as Window;
 
@@ -85,7 +78,7 @@ namespace ZeroMVVM
             return window;
         }
 
-        protected virtual Window InferOwnerOf(Window window)
+        private static Window InferOwnerOf(Window window)
         {
             if (Application.Current == null)
             {
@@ -99,7 +92,7 @@ namespace ZeroMVVM
             return active == window ? null : active;
         }
 
-        protected virtual Page CreatePage(object viewModel)
+        private static Page CreatePage(object viewModel)
         {
             var viewType = AppRunner.ConventionManager.FindAll(Default.ViewConvention, viewModel.GetType()).Single();
 
@@ -110,7 +103,7 @@ namespace ZeroMVVM
             return view;
         }
 
-        protected virtual Page EnsurePage(object model, object view)
+        private static Page EnsurePage(object model, object view)
         {
             var page = view as Page;
 

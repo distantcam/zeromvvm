@@ -28,9 +28,7 @@ namespace ZeroMVVM
 
             var viewModel = Default.GetInstance(typeof(T));
 
-            var windowManager = Default.GetInstance<IWindowManager>();
-
-            windowManager.ShowWindow(viewModel);
+            WindowManager.ShowWindow(viewModel);
         }
     }
 }

@@ -64,6 +64,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\SimpleExample\UI\Shell\ShellAttachment.cs">
+      <Link>UI\Shell\ShellAttachment.cs</Link>
+    </Compile>
     <Compile Include="..\SimpleExample\UI\Shell\ShellView.xaml.cs">
       <Link>UI\Shell\ShellView.xaml.cs</Link>
       <DependentUpon>ShellView.xaml</DependentUpon>
