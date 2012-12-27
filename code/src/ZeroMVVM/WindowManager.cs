@@ -34,9 +34,7 @@ namespace ZeroMVVM
 
         private static Window CreateWindow(object viewModel, bool isDialog)
         {
-            var viewType = ZAppRunner.ConventionManager.FindAll(Default.ViewConvention, viewModel.GetType()).Single();
-
-            var view = EnsureWindow(viewModel, ZAppRunner.GetInstance(viewType), isDialog);
+            var view = EnsureWindow(viewModel, ZAppRunner.GetViewForViewModel(viewModel), isDialog);
 
             ViewModelBinder.Bind(view, viewModel);
 
@@ -94,9 +92,7 @@ namespace ZeroMVVM
 
         private static Page CreatePage(object viewModel)
         {
-            var viewType = ZAppRunner.ConventionManager.FindAll(Default.ViewConvention, viewModel.GetType()).Single();
-
-            var view = EnsurePage(viewModel, ZAppRunner.GetInstance(viewType));
+            var view = EnsurePage(viewModel, ZAppRunner.GetViewForViewModel(viewModel));
 
             view.DataContext = viewModel;
 

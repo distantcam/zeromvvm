@@ -43,7 +43,7 @@ namespace ZeroMVVM
 
         public static Logger GetLogger(Type type)
         {
-            return GetLogger(type.Name);
+            return GetLogger(type.FullName);
         }
 
         public static Logger GetLogger(string name)
@@ -59,6 +59,13 @@ namespace ZeroMVVM
         internal static object GetInstance(Type type)
         {
             return container.GetInstance(type);
+        }
+
+        internal static object GetViewForViewModel(object viewModel)
+        {
+            var viewType = ConventionManager.FindAll(Default.ViewConvention, viewModel).Single();
+
+            return GetInstance(viewType);
         }
 
         private static void SetupIoC(IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister)

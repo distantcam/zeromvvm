@@ -63,7 +63,14 @@ namespace ZeroMVVM
 
             loggingRule.LoggerNamePattern = "*";
             loggingRule.Targets.Add(target);
-            for (int i = 2; i < 6; i++)
+
+#if DEBUG
+            int i = 1; // DEBUG Level
+#else
+            int i = 2; // INFO Level
+#endif
+
+            for (; i < 6; i++)
             {
                 var level = logLevel.FromOrdinal(i);
                 loggingRule.EnableLoggingForLevel(level);
