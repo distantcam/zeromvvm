@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ZeroMVVM</id>
+    <version>$version$</version>
+    <title>ZeroMVVM</title>
+    <authors>Cameron MacFarland</authors>
+    <owners>Cameron MacFarland</owners>
+    <projectUrl>https://github.com/distantcam/zeromvvm</projectUrl>
+    <description>The MVVM framework you won't even realize is there.</description>
+    <summary>A Zero friction MVVM Framework</summary>
+    <language>en-AU</language>
+    <tags>MVVM</tags>
+
+    <dependencies>
+      <dependency id="Conventional" />
+    </dependencies>
+  </metadata>
+
+  <files>
+    <file src="bin\$Configuration$\ZeroMVVM.dll" target="lib\net40" />
+    <file src="bin\$Configuration$\ZeroMVVM.pdb" target="lib\net40" />
+
+    <file src="**\*.cs" target="src" />
+  </files>
+
+</package>

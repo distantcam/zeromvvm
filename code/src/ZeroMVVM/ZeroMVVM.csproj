@@ -88,4 +88,5 @@
   -->
   <Import Project="$(SolutionDir)\Build\MSBuild.Community.Tasks.targets" />
   <Import Project="$(SolutionDir)\Build\GenerateCommonAssemblyInfo.targets" />
+  <Import Project="$(SolutionDir)\Build\BuildNuGetPackage.targets" />
 </Project>

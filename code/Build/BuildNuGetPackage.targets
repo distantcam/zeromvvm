@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="GenerateCommonAssemblyInfo.targets" />
+
+  <PropertyGroup>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)\..\</SolutionDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <!-- Windows specific commands -->
+    <NuGetToolsPath>$([System.IO.Path]::Combine($(SolutionDir), ".nuget"))</NuGetToolsPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
+    <!-- We need to launch nuget.exe with the mono command if we're not on windows -->
+    <NuGetToolsPath>$(SolutionDir).nuget</NuGetToolsPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- NuGet command -->
+    <NuGetExePath Condition=" '$(NuGetExePath)' == '' ">$(NuGetToolsPath)\nuget.exe</NuGetExePath>
+
+    <NuGetCommand Condition=" '$(OS)' == 'Windows_NT'">"$(NuGetExePath)"</NuGetCommand>
+    <NuGetCommand Condition=" '$(OS)' != 'Windows_NT' ">mono --runtime=v4.0.30319 $(NuGetExePath)</NuGetCommand>
+
+    <PackageOutputDir Condition="$(PackageOutputDir) == ''">$(TargetDir.Trim('\\'))</PackageOutputDir>
+
+    <NuSpecPath Condition=" '$(NuSpecPath)' == '' ">$(MSBuildProjectDirectory)\$(MSBuildProjectName).nuspec</NuSpecPath>
+
+    <!-- Make the build depend on restore packages -->
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      BuildPackage;
+    </BuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="BuildPackage">
+    <PropertyGroup>
+      <VersionArg>-Version $(CurrentVersion)$(AssemblyConfig)$(BuildNumber)</VersionArg>
+
+      <BuildCommand>$(NuGetCommand) pack "$(NuSpecPath)" $(VersionArg) -p Configuration=$(Configuration) -o "$(PackageOutputDir)" -symbols</BuildCommand>
+    </PropertyGroup>
+
+    <Exec Command="$(BuildCommand)"
+          Condition=" '$(OS)' != 'Windows_NT' " />
+
+    <Exec Command="$(BuildCommand)"
+          LogStandardErrorAsError="true"
+          Condition=" '$(OS)' == 'Windows_NT' " />
+  </Target>
+
+</Project>
