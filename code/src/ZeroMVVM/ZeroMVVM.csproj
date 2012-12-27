@@ -55,6 +55,10 @@
     </Compile>
     <Compile Include="UIHelper.cs" />
     <Compile Include="ViewModelBinder.cs" />
+    <Compile Include="XAML\BoolToVisibilityConverter.cs" />
+    <Compile Include="XAML\DebugConverter.cs" />
+    <Compile Include="XAML\MarkupConverter.cs" />
+    <Compile Include="XAML\NullToVisibilityConverter.cs" />
     <Compile Include="ZAppRunner.cs" />
     <Compile Include="Attachment.cs" />
     <Compile Include="Dynamic\AutofacContainer.cs" />
