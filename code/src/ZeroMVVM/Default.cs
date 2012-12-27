@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using ZeroMVVM.Conventions;
 using ZeroMVVM.Dynamic;
 
@@ -9,7 +7,6 @@ namespace ZeroMVVM
     public static class Default
     {
         private static Func<string, dynamic> logger;
-        private static IContainer container;
 
         static Default()
         {
@@ -75,63 +72,6 @@ namespace ZeroMVVM
             config.LoggingRules.Add(loggingRule);
 
             logManager.Configuration = config;
-        }
-
-        internal static T GetInstance<T>()
-        {
-            return (T)container.GetInstance(typeof(T));
-        }
-
-        internal static object GetInstance(Type type)
-        {
-            return container.GetInstance(type);
-        }
-
-        internal static void SetupIoC(IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister)
-        {
-            if (IoC == null)
-            {
-                container = new Container(viewModelTypesToRegister);
-                return;
-            }
-
-            container = IoC as IContainer;
-            if (container != null)
-                return;
-
-            if (IoC.GetType().Namespace == "Autofac" && IoC.GetType().Name == "ContainerBuilder")
-            {
-                container = new AutofacContainer(Default.IoC, typesToRegister, viewModelTypesToRegister);
-            }
-        }
-
-        private static void ConfigureDefaultAutofac(IEnumerable<Type> typesToRegister)
-        {
-            dynamic registrationExtensions = new StaticMembersDynamicWrapper(Type.GetType("Autofac.RegistrationExtensions, Autofac"));
-
-            dynamic registration;
-            Type limitType;
-
-            foreach (var type in typesToRegister)
-            {
-                // IoC.RegisterType(type)
-                registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(IoC, type));
-
-                // AsSelf()
-                limitType = registration.ActivatorData.Activator.LimitType;
-                registration.As(limitType);
-            }
-
-            // IoC.RegisterType(typeof(WindowManager))
-            registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(IoC, typeof(WindowManager)));
-
-            // AsImplementedInterfaces()
-            limitType = registration.ActivatorData.Activator.LimitType;
-            var interfaces = limitType.GetInterfaces().Where((Func<Type, bool>)(t => t != typeof(IDisposable))).ToArray();
-            registration = new AutofacRegistrationHelper(registration.As(interfaces));
-
-            // SingleInstance()
-            registration.SingleInstance();
         }
     }
 }

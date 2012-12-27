@@ -21,7 +21,7 @@ namespace ZeroMVVM
         }
     }
 
-    internal class LogWrapper
+    internal class LogWrapper : Logger
     {
         private readonly dynamic logger;
 
@@ -30,28 +30,37 @@ namespace ZeroMVVM
             this.logger = logger;
         }
 
-        public void Warn(string message)
+        public override void Warn(string message)
         {
             if (logger == null)
+            {
+                base.Warn(message);
                 return;
+            }
 
             if (logger.GetType().GetMethod("Warn", new Type[] { typeof(string) }) != null)
                 logger.Warn(message);
         }
 
-        public void Info(string message)
+        public override void Info(string message)
         {
             if (logger == null)
+            {
+                base.Info(message);
                 return;
+            }
 
             if (logger.GetType().GetMethod("Info", new Type[] { typeof(string) }) != null)
                 logger.Info(message);
         }
 
-        public void Debug(string message)
+        public override void Debug(string message)
         {
             if (logger == null)
+            {
+                base.Debug(message);
                 return;
+            }
 
             if (logger.GetType().GetMethod("Debug", new Type[] { typeof(string) }) != null)
                 logger.Debug(message);

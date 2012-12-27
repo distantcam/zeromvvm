@@ -64,6 +64,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\SimpleExample\UI\Child\ChildView.xaml.cs">
+      <Link>UI\Child\ChildView.xaml.cs</Link>
+      <DependentUpon>ChildView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\SimpleExample\UI\Child\ChildViewModel.cs">
+      <Link>UI\Child\ChildViewModel.cs</Link>
+    </Compile>
     <Compile Include="..\SimpleExample\UI\Shell\ShellAttachment.cs">
       <Link>UI\Shell\ShellAttachment.cs</Link>
     </Compile>
@@ -112,6 +119,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="..\SimpleExample\UI\Child\ChildView.xaml">
+      <Link>UI\Child\ChildView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\SimpleExample\UI\Shell\ShellView.xaml">
       <Link>UI\Shell\ShellView.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

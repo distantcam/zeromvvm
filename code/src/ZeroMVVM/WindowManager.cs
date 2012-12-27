@@ -36,9 +36,9 @@ namespace ZeroMVVM
         {
             var viewType = ZAppRunner.ConventionManager.FindAll(Default.ViewConvention, viewModel.GetType()).Single();
 
-            var view = EnsureWindow(viewModel, Default.GetInstance(viewType), isDialog);
+            var view = EnsureWindow(viewModel, ZAppRunner.GetInstance(viewType), isDialog);
 
-            view.DataContext = viewModel;
+            ViewModelBinder.Bind(view, viewModel);
 
             return view;
         }
@@ -96,7 +96,7 @@ namespace ZeroMVVM
         {
             var viewType = ZAppRunner.ConventionManager.FindAll(Default.ViewConvention, viewModel.GetType()).Single();
 
-            var view = EnsurePage(viewModel, Default.GetInstance(viewType));
+            var view = EnsurePage(viewModel, ZAppRunner.GetInstance(viewType));
 
             view.DataContext = viewModel;
 
