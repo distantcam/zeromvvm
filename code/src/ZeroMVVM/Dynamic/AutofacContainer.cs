@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 
 namespace ZeroMVVM.Dynamic
 {
-    internal class AutofacContainer : DynamicObject, IContainer
+    internal class AutofacContainer : IContainer
     {
         private dynamic internalContainer;
         private MethodInfo resolveMethod;
