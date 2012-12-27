@@ -56,7 +56,7 @@ namespace ZeroMVVM
             dynamic target = Activator.CreateInstance("NLog", "NLog.Targets.ColoredConsoleTarget").Unwrap();
             dynamic loggingRule = Activator.CreateInstance("NLog", "NLog.Config.LoggingRule").Unwrap();
 
-            target.Layout = "${level:uppercase=true} ${logger}: ${message}${onexception:inner=${newline}${exception:format=tostring}}";
+            target.Layout = "[${level:uppercase=true:padding=-5}] ${logger}: ${message}${onexception:inner=${newline}${exception:format=tostring}}";
             config.AddTarget("console", target);
 
             dynamic logLevel = new StaticMembersDynamicWrapper(Type.GetType("NLog.LogLevel, NLog"));
