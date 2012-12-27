@@ -3,7 +3,7 @@ using Conventional;
 
 namespace ZeroMVVM
 {
-    public static class AppRunner
+    public static class ZAppRunner
     {
         public static IConventionManager ConventionManager { get; private set; }
 

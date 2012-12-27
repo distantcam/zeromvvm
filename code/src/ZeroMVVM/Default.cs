@@ -95,6 +95,10 @@ namespace ZeroMVVM
                 return;
             }
 
+            container = IoC as IContainer;
+            if (container != null)
+                return;
+
             if (IoC.GetType().Namespace == "Autofac" && IoC.GetType().Name == "ContainerBuilder")
             {
                 container = new AutofacContainer(Default.IoC, typesToRegister, viewModelTypesToRegister);

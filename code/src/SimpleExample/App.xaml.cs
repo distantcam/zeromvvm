@@ -11,7 +11,7 @@ namespace SimpleExample
     {
         public App()
         {
-            AppRunner.Start<ShellViewModel>();
+            ZAppRunner.Start<ShellViewModel>();
         }
     }
 }

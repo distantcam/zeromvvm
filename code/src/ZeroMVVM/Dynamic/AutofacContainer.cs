@@ -53,7 +53,7 @@ namespace ZeroMVVM.Dynamic
                 {
                     var vmType = (Type)e.Instance.GetType();
 
-                    var attachments = AppRunner.ConventionManager.FindAll(Default.AttachmentConvention, vmType)
+                    var attachments = ZAppRunner.ConventionManager.FindAll(Default.AttachmentConvention, vmType)
                         .Where(t => resolutionExtensions.IsRegistered(e.Context, t))
                         .Select(t => (IAttachment)resolutionExtensions.Resolve(e.Context, t));
 

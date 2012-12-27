@@ -5,17 +5,17 @@ namespace ZeroMVVM
 {
     public class Logger
     {
-        public void Warn(string message)
+        public virtual void Warn(string message)
         {
             Trace.WriteLine("[WARN] " + message);
         }
 
-        public void Info(string message)
+        public virtual void Info(string message)
         {
             Trace.WriteLine("[INFO] " + message);
         }
 
-        public void Debug(string message)
+        public virtual void Debug(string message)
         {
             System.Diagnostics.Debug.WriteLine("[DEBUG] " + message);
         }

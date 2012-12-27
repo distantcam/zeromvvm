@@ -17,7 +17,7 @@ namespace FullExample
 
             Default.IoC = new ContainerBuilder();
 
-            AppRunner.Start<ShellViewModel>();
+            ZAppRunner.Start<ShellViewModel>();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace ZeroMVVM
 
             if (viewModelTypes.Contains(type))
             {
-                var attachments = AppRunner.ConventionManager.FindAll(Default.AttachmentConvention, type);
+                var attachments = ZAppRunner.ConventionManager.FindAll(Default.AttachmentConvention, type);
                 if (attachments != null)
                     foreach (var a in attachments)
                         ((IAttachment)Activator.CreateInstance(a)).AttachTo(instance);
