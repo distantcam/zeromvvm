@@ -18,10 +18,10 @@
   </metadata>
 
   <files>
-    <file src="bin\$Configuration$\ZeroMVVM.dll" target="lib\net40" />
-    <file src="bin\$Configuration$\ZeroMVVM.pdb" target="lib\net40" />
+    <file src="..\code\src\ZeroMVVM\bin\$Configuration$\ZeroMVVM.dll" target="lib\net40" />
+    <file src="..\code\src\ZeroMVVM\bin\$Configuration$\ZeroMVVM.pdb" target="lib\net40" />
 
-    <file src="**\*.cs" target="src" />
+    <file src="..\code\src\ZeroMVVM\**\*.cs" target="src" />
   </files>
 
 </package>
