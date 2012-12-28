@@ -42,12 +42,10 @@
   <Target Name="NuGet" DependsOnTargets="Compile">
     <PropertyGroup>
       <AssemblyConfig Condition=" '$(AssemblyConfig)' != '' ">-$(AssemblyConfig)</AssemblyConfig>
-      <BuildNumber Condition=" '$(AssemblyConfig)' != '' And '$(BuildNumber)' == '0' "></BuildNumber>
-      <BuildNumber Condition=" '$(AssemblyConfig)' == '' And '$(BuildNumber)' != '' ">.$(BuildNumber)</BuildNumber>
 
       <NuGet>code\.nuget\NuGet.exe</NuGet>
       <OutputDirectory>-OutputDirectory "artifacts"</OutputDirectory>
-      <VersionArg>-Version $(CurrentVersion)$(AssemblyConfig)$(BuildNumber)</VersionArg>
+      <VersionArg>-Version $(CurrentVersion)$(AssemblyConfig)</VersionArg>
       <ConfigArg>-Prop Configuration=$(Configuration)</ConfigArg>
     </PropertyGroup>
 
