@@ -27,6 +27,8 @@ namespace ZeroMVVM
 
             ConventionManager = builder.Build();
 
+            ConventionManager.Verify();
+
             var typesToRegister = ConventionManager.FindAll(Default.ViewConvention)
                 .Concat(ConventionManager.FindAll(Default.AttachmentConvention))
                 ;

@@ -15,6 +15,7 @@
     <WarningLevel>4</WarningLevel>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\Build</MSBuildCommunityTasksPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +46,12 @@
     <Reference Include="NLog">
       <HintPath>..\..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="PropertyChanged">
+      <HintPath>..\..\packages\PropertyChanged.Fody.1.32.2.0\Lib\NET40\PropertyChanged.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyChanging">
+      <HintPath>..\..\packages\PropertyChanging.Fody.1.18.2.0\Lib\NET40\PropertyChanging.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -58,12 +65,16 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\SimpleExample\UI\Child\ChildView.xaml.cs">
       <Link>UI\Child\ChildView.xaml.cs</Link>
       <DependentUpon>ChildView.xaml</DependentUpon>
@@ -117,7 +128,6 @@
       <Name>ZeroMVVM</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="..\SimpleExample\UI\Child\ChildView.xaml">
       <Link>UI\Child\ChildView.xaml</Link>
@@ -139,4 +149,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="$(ProjectDir)\..\..\Tools\Fody\Fody.targets" />
 </Project>

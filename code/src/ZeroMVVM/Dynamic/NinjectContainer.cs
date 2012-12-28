@@ -18,6 +18,8 @@ namespace ZeroMVVM.Dynamic
 
         public void Setup(IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister)
         {
+            // Ninject 3 does self binding for concrete types, so we don't need to register them.
+
             this.viewModelTypes = new HashSet<Type>(viewModelTypesToRegister);
         }
 
