@@ -16,7 +16,7 @@
 
         <TextBlock Grid.Row="0" Text="Shell ViewModel status" VerticalAlignment="Center" Margin="12" />
 
-        <Grid Grid.Row="0" Grid.Column="1" Background="Red" Width="150" Height="100">
+        <Grid Grid.Row="0" Grid.Column="1" Background="Red" Width="150" Height="100" SnapsToDevicePixels="True">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Text="Not Working" />
 
             <Border Background="Lime" Visibility="{Binding ViewModelWorking, Converter={z:BoolToVisibilityConverter}}">
@@ -26,7 +26,7 @@
 
         <TextBlock Grid.Row="1" Text="Shell Attachment status" VerticalAlignment="Center" Margin="12" />
 
-        <Grid Grid.Row="1" Grid.Column="1" Background="Red" Width="150" Height="100">
+        <Grid Grid.Row="1" Grid.Column="1" Background="Red" Width="150" Height="100" SnapsToDevicePixels="True">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Text="Not Working" />
 
             <Border Background="Lime" Visibility="{Binding AttachmentWorking, Converter={z:BoolToVisibilityConverter}}">
@@ -36,7 +36,7 @@
 
         <TextBlock Grid.Row="2" Text="Child ViewModel status" VerticalAlignment="Center" Margin="12" />
 
-        <Grid Grid.Row="2" Grid.Column="1" Background="Red" Width="150" Height="100">
+        <Grid Grid.Row="2" Grid.Column="1" Background="Red" Width="150" Height="100" SnapsToDevicePixels="True">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Text="Not Working" />
 
             <ContentControl x:Name="Child" />

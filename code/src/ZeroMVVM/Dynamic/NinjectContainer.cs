@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace ZeroMVVM
+namespace ZeroMVVM.Dynamic
 {
-    public interface IContainer
+    internal class NinjectContainer : IContainer
     {
-        void Setup(IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister);
+        private static dynamic resolutionExtensions = new StaticMembersDynamicWrapper(Type.GetType("Ninject.ResolutionExtensions, Ninject"));
 
-        object GetInstance(Type type);
-    }
+        private readonly dynamic kernel;
 
-    internal class Container : IContainer
-    {
         private HashSet<Type> viewModelTypes;
+
+        public NinjectContainer(dynamic kernel)
+        {
+            this.kernel = kernel;
+        }
 
         public void Setup(IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister)
         {
@@ -22,11 +23,7 @@ namespace ZeroMVVM
 
         public object GetInstance(Type type)
         {
-            var ctor = type.GetConstructors().OrderByDescending(ci => ci.GetParameters().Length).First();
-
-            var args = ctor.GetParameters().Select(pi => GetInstance(pi.ParameterType)).ToArray();
-
-            var instance = Activator.CreateInstance(type, args);
+            var instance = resolutionExtensions.Get(kernel, type, Array.CreateInstance(Type.GetType("Ninject.Parameters.IParameter, Ninject"), 0));
 
             if (viewModelTypes.Contains(type))
             {

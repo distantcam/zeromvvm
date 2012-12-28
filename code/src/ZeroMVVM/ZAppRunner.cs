@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Conventional;
 using ZeroMVVM.Dynamic;
@@ -9,11 +8,14 @@ namespace ZeroMVVM
     public static class ZAppRunner
     {
         private static IContainer container;
+        private static Logger Log;
 
         public static IConventionManager ConventionManager { get; private set; }
 
         public static void Start<T>()
         {
+            Log = GetLogger(typeof(ZAppRunner));
+
             ConventionBuilder.Logger = Default.Logger;
 
             var builder = new ConventionBuilder();
@@ -29,7 +31,9 @@ namespace ZeroMVVM
                 .Concat(ConventionManager.FindAll(Default.AttachmentConvention))
                 ;
 
-            SetupIoC(typesToRegister, ConventionManager.FindAll(Default.ViewModelConvention));
+            CreateIoC();
+
+            container.Setup(typesToRegister, ConventionManager.FindAll(Default.ViewModelConvention));
 
             var viewModel = GetInstance(typeof(T));
 
@@ -68,21 +72,46 @@ namespace ZeroMVVM
             return GetInstance(viewType);
         }
 
-        private static void SetupIoC(IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister)
+        private static void CreateIoC()
         {
-            if (Default.IoC == null)
-            {
-                container = new Container(viewModelTypesToRegister);
-                return;
-            }
-
             container = Default.IoC as IContainer;
             if (container != null)
                 return;
 
-            if (Default.IoC.GetType().Namespace == "Autofac" && Default.IoC.GetType().Name == "ContainerBuilder")
+            if (Default.IoC == null)
             {
-                container = new AutofacContainer(Default.IoC, typesToRegister, viewModelTypesToRegister);
+                container = new Container();
+                return;
+            }
+
+            var iocType = (Type)Default.IoC.GetType();
+
+            if (iocType.Namespace == "Autofac")
+            {
+                if (iocType.Name != "ContainerBuilder")
+                {
+                    Log.Error("To provide a default Autofac container set Default.IoC to a ContainerBuilder, or provide a custom IContainer.");
+                    throw new NotSupportedException();
+                }
+                container = new AutofacContainer(Default.IoC);
+                return;
+            }
+
+            if (iocType.Namespace == "Ninject")
+            {
+                if (iocType.Name != "IKernel" && iocType.GetInterface("IKernel") == null)
+                {
+                    Log.Error("To provide a default Ninject container set Default.IoC to an IKernel, or provide a custom IContainer.");
+                    throw new NotSupportedException();
+                }
+                container = new NinjectContainer(Default.IoC);
+                return;
+            }
+
+            if (container == null)
+            {
+                Log.Error("Could not set up IoC correctly. Consider providing a custom implementation of IContainer for your IoC.");
+                throw new NotSupportedException();
             }
         }
     }

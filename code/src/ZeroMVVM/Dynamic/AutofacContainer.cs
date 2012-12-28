@@ -7,10 +7,16 @@ namespace ZeroMVVM.Dynamic
 {
     internal class AutofacContainer : IContainer
     {
-        private dynamic internalContainer;
+        private dynamic builder;
+        private object internalContainer;
         private MethodInfo resolveMethod;
 
-        public AutofacContainer(dynamic builder, IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister)
+        public AutofacContainer(dynamic builder)
+        {
+            this.builder = builder;
+        }
+
+        public void Setup(IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister)
         {
             SetupDefaults(typesToRegister, viewModelTypesToRegister);
 
