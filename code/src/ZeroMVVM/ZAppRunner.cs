@@ -86,7 +86,7 @@ namespace ZeroMVVM
 
             var iocType = (Type)Default.IoC.GetType();
 
-            if (iocType.Namespace == "Autofac")
+            if (iocType.Namespace.StartsWith("Autofac"))
             {
                 if (iocType.Name != "ContainerBuilder")
                 {
@@ -97,7 +97,7 @@ namespace ZeroMVVM
                 return;
             }
 
-            if (iocType.Namespace == "Ninject")
+            if (iocType.Namespace.StartsWith("Ninject"))
             {
                 if (iocType.Name != "IKernel" && iocType.GetInterface("IKernel") == null)
                 {
