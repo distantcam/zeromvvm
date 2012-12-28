@@ -10,65 +10,77 @@ namespace ZeroMVVM.Dynamic
     {
         private class MetaObject : DynamicMetaObject
         {
-            private readonly object instance;
-            private readonly Type type;
-
-            public MetaObject(Expression expression, object value, object instance)
+            public MetaObject(Expression expression, object value)
                 : base(expression, BindingRestrictions.Empty, value)
             {
-                this.instance = instance;
-                this.type = instance.GetType();
             }
 
             public override DynamicMetaObject BindGetMember(GetMemberBinder binder)
             {
-                PropertyInfo prop = type.GetProperty(binder.Name, BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public);
-                if (prop == null)
-                    return base.BindGetMember(binder);
+                Expression self = Expression.Convert(Expression, LimitType);
+
+                Expression[] parameters = new Expression[] { Expression.Constant(binder.Name) };
 
                 return new DynamicMetaObject(
-                    Expression.Property(Expression.Constant(instance), prop),
+                    Expression.Call(self, typeof(AutofacRegistrationHelper).GetMethod("GetMember"), parameters),
                     BindingRestrictions.GetTypeRestriction(Expression, LimitType));
             }
 
             public override DynamicMetaObject BindInvokeMember(InvokeMemberBinder binder, DynamicMetaObject[] args)
             {
-                Type[] argTypes = args.Select(a => a.RuntimeType).ToArray();
-                MethodInfo method = type.GetMethod(binder.Name, BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public, null, argTypes, null);
+                Expression self = Expression.Convert(Expression, LimitType);
 
-                var invokeArgs = Expression.NewArrayInit(typeof(object), args.Select(a => Expression.Convert(a.Expression, typeof(object))));
-
-                if (method == null)
-                    if (binder.Name == "As")
-                    {
-                        method = type.GetMethod(binder.Name, BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(Type[]) }, null);
-                        invokeArgs = Expression.NewArrayInit(typeof(object), Expression.NewArrayInit(typeof(Type), args.Select(a => Expression.Convert(a.Expression, typeof(Type)))));
-                    }
-
-                if (method == null)
-                    return base.BindInvokeMember(binder, args);
-
-                var parameters = new Expression[] { Expression.Constant(instance), invokeArgs };
+                Expression[] parameters = new Expression[2];
+                parameters[0] = Expression.Constant(binder.Name);
+                parameters[1] = Expression.NewArrayInit(typeof(object), args.Select(dmo => dmo.Expression).ToArray());
 
                 return new DynamicMetaObject(
-                    Expression.Call(
-                        Expression.Constant(method),
-                        typeof(MethodInfo).GetMethod("Invoke", new Type[] { typeof(object), typeof(object[]) }),
-                        parameters),
+                    Expression.Call(self, typeof(AutofacRegistrationHelper).GetMethod("InvokeMember"), parameters),
                     BindingRestrictions.GetTypeRestriction(Expression, LimitType));
             }
         }
 
         private readonly object instance;
+        private readonly Type type;
 
         public AutofacRegistrationHelper(object instance)
         {
             this.instance = instance;
+            this.type = instance.GetType();
         }
 
         DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression parameter)
         {
-            return new MetaObject(parameter, this, instance);
+            return new MetaObject(parameter, this);
+        }
+
+        public object GetMember(string name)
+        {
+            PropertyInfo prop = type.GetProperty(name, BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public);
+            if (prop == null)
+                throw new NotSupportedException();
+
+            return prop.GetValue(instance, null);
+        }
+
+        public object InvokeMember(string name, object[] args)
+        {
+            Type[] argTypes = args.Select(a => a.GetType()).ToArray();
+            MethodInfo method = type.GetMethod(name, BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public, null, argTypes, null);
+
+            if (method == null)
+            {
+                if (name == "As")
+                {
+                    method = type.GetMethod(name, BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(Type[]) }, null);
+                    args = new object[] { args.OfType<Type>().ToArray() };
+                }
+            }
+
+            if (method == null)
+                throw new NotSupportedException();
+
+            return method.Invoke(instance, args);
         }
     }
 }
