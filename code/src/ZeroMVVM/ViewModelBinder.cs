@@ -46,13 +46,15 @@ namespace ZeroMVVM
                 Log.Info(String.Format("Binding ContentControl {0} to property {1}", contentControl.Name, property.Name));
 
                 var contentViewModel = property.GetValue(viewModel, null);
-                var contentView = (FrameworkElement)ZAppRunner.GetViewForViewModel(contentViewModel);
 
-                Bind(contentView, contentViewModel);
+                if (contentViewModel != null)
+                {
+                    var contentView = (FrameworkElement)ZAppRunner.GetViewForViewModel(contentViewModel);
+                    Bind(contentView, contentViewModel);
+                    contentControl.Content = contentView;
 
-                contentControl.Content = contentView;
-
-                return true;
+                    return true;
+                }
             }
 
             return false;

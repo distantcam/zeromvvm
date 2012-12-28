@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using ZeroMVVM;
+﻿using ZeroMVVM;
 
 namespace SimpleExample.UI.Shell
 {
@@ -7,7 +6,7 @@ namespace SimpleExample.UI.Shell
     {
         protected override void OnAttach()
         {
-            Debug.WriteLine("[TESTING] Attached to " + viewModel);
+            viewModel.AttachmentWorking = true;
         }
     }
 }

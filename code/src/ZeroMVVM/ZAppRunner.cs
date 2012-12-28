@@ -85,34 +85,5 @@ namespace ZeroMVVM
                 container = new AutofacContainer(Default.IoC, typesToRegister, viewModelTypesToRegister);
             }
         }
-
-        private static void ConfigureDefaultAutofac(IEnumerable<Type> typesToRegister)
-        {
-            dynamic registrationExtensions = new StaticMembersDynamicWrapper(Type.GetType("Autofac.RegistrationExtensions, Autofac"));
-
-            dynamic registration;
-            Type limitType;
-
-            foreach (var type in typesToRegister)
-            {
-                // IoC.RegisterType(type)
-                registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(Default.IoC, type));
-
-                // AsSelf()
-                limitType = registration.ActivatorData.Activator.LimitType;
-                registration.As(limitType);
-            }
-
-            // IoC.RegisterType(typeof(WindowManager))
-            registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(Default.IoC, typeof(WindowManager)));
-
-            // AsImplementedInterfaces()
-            limitType = registration.ActivatorData.Activator.LimitType;
-            var interfaces = limitType.GetInterfaces().Where((Func<Type, bool>)(t => t != typeof(IDisposable))).ToArray();
-            registration = new AutofacRegistrationHelper(registration.As(interfaces));
-
-            // SingleInstance()
-            registration.SingleInstance();
-        }
     }
 }
