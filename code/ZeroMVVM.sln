@@ -18,6 +18,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleExample", "src\Simple
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjectExample", "src\NinjectExample\NinjectExample.csproj", "{30255F0F-DD79-433E-BDAC-2D53D8DD0DC2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{FBA21AC6-D300-4F1F-A636-FF289BC97B21}"
+	ProjectSection(SolutionItems) = preProject
+		Build\GenerateCommonAssemblyInfo.targets = Build\GenerateCommonAssemblyInfo.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

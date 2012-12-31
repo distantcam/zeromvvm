@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace ZeroMVVM
 {
-    public static class UIHelper
+    internal static class UIHelper
     {
         public static IEnumerable<FrameworkElement> FindNamedChildren(DependencyObject parent)
         {
