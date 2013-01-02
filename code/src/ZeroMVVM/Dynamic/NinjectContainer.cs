@@ -29,7 +29,7 @@ namespace ZeroMVVM.Dynamic
 
             if (viewModelTypes.Contains(type))
             {
-                var attachments = ZAppRunner.ConventionManager.FindAll(Default.AttachmentConvention, type);
+                var attachments = ZAppRunner.ConventionManager.FindAll(ZAppRunner.Default.AttachmentConvention, type);
                 if (attachments != null)
                     foreach (var a in attachments)
                         ((IAttachment)GetInstance(a)).AttachTo(instance);

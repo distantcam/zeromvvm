@@ -4,81 +4,84 @@ using ZeroMVVM.Dynamic;
 
 namespace ZeroMVVM
 {
-    public static class Default
+    public static partial class ZAppRunner
     {
-        private static Func<string, dynamic> logger;
-
-        static Default()
+        public static class Default
         {
-            AttachmentConvention = typeof(AttachmentConvention);
-            ViewConvention = typeof(ViewConvention);
-            ViewModelConvention = typeof(ViewModelConvention);
+            private static Func<string, dynamic> logger;
 
-            Logger = t => new Logger();
-        }
-
-        public static Type AttachmentConvention { get; set; }
-
-        public static Type ViewModelConvention { get; set; }
-
-        public static Type ViewConvention { get; set; }
-
-        public static dynamic IoC { get; set; }
-
-        public static Func<string, dynamic> Logger
-        {
-            get { return logger; }
-            set
+            static Default()
             {
-                if (logger == value)
-                    return;
-                logger = value;
-                SetupDefaultLoggerSettings();
+                AttachmentConvention = typeof(AttachmentConvention);
+                ViewConvention = typeof(ViewConvention);
+                ViewModelConvention = typeof(ViewModelConvention);
+
+                Logger = t => new Logger();
             }
-        }
 
-        private static void SetupDefaultLoggerSettings()
-        {
-            var logger = Logger("Test");
+            public static Type AttachmentConvention { get; set; }
 
-            if (logger.GetType().Namespace.StartsWith("NLog"))
-                ConfigureDefaultNLog();
-        }
+            public static Type ViewModelConvention { get; set; }
 
-        private static void ConfigureDefaultNLog()
-        {
-            dynamic logManager = new StaticMembersDynamicWrapper(Type.GetType("NLog.LogManager, NLog"));
+            public static Type ViewConvention { get; set; }
 
-            if (logManager.Configuration != null)
-                return;
+            public static dynamic IoC { get; set; }
 
-            dynamic config = Activator.CreateInstance("NLog", "NLog.Config.LoggingConfiguration").Unwrap();
-            dynamic target = Activator.CreateInstance("NLog", "NLog.Targets.ColoredConsoleTarget").Unwrap();
-            dynamic loggingRule = Activator.CreateInstance("NLog", "NLog.Config.LoggingRule").Unwrap();
+            public static Func<string, dynamic> Logger
+            {
+                get { return logger; }
+                set
+                {
+                    if (logger == value)
+                        return;
+                    logger = value;
+                    SetupDefaultLoggerSettings();
+                }
+            }
 
-            target.Layout = "[${level:uppercase=true:padding=-5}] ${logger}: ${message}${onexception:inner=${newline}${exception:format=tostring}}";
-            config.AddTarget("console", target);
+            private static void SetupDefaultLoggerSettings()
+            {
+                var logger = Logger("Test");
 
-            dynamic logLevel = new StaticMembersDynamicWrapper(Type.GetType("NLog.LogLevel, NLog"));
+                if (logger.GetType().Namespace.StartsWith("NLog"))
+                    ConfigureDefaultNLog();
+            }
 
-            loggingRule.LoggerNamePattern = "*";
-            loggingRule.Targets.Add(target);
+            private static void ConfigureDefaultNLog()
+            {
+                dynamic logManager = new StaticMembersDynamicWrapper(Type.GetType("NLog.LogManager, NLog"));
+
+                if (logManager.Configuration != null)
+                    return;
+
+                dynamic config = Activator.CreateInstance("NLog", "NLog.Config.LoggingConfiguration").Unwrap();
+                dynamic target = Activator.CreateInstance("NLog", "NLog.Targets.ColoredConsoleTarget").Unwrap();
+                dynamic loggingRule = Activator.CreateInstance("NLog", "NLog.Config.LoggingRule").Unwrap();
+
+                target.Layout = "[${level:uppercase=true:padding=-5}] ${logger}: ${message}${onexception:inner=${newline}${exception:format=tostring}}";
+                config.AddTarget("console", target);
+
+                dynamic logLevel = new StaticMembersDynamicWrapper(Type.GetType("NLog.LogLevel, NLog"));
+
+                loggingRule.LoggerNamePattern = "*";
+                loggingRule.Targets.Add(target);
 
 #if DEBUG
-            int i = 1; // DEBUG Level
+                int i = 1; // DEBUG Level
 #else
             int i = 2; // INFO Level
 #endif
 
-            for (; i < 6; i++)
-            {
-                var level = logLevel.FromOrdinal(i);
-                loggingRule.EnableLoggingForLevel(level);
+                for (; i < 6; i++)
+                {
+                    var level = logLevel.FromOrdinal(i);
+                    loggingRule.EnableLoggingForLevel(level);
+                }
+
+                config.LoggingRules.Add(loggingRule);
+
+                logManager.Configuration = config;
             }
-
-            config.LoggingRules.Add(loggingRule);
-
-            logManager.Configuration = config;
         }
     }
 }

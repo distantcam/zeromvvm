@@ -5,7 +5,7 @@ using ZeroMVVM.Dynamic;
 
 namespace ZeroMVVM
 {
-    public static class ZAppRunner
+    public static partial class ZAppRunner
     {
         private static IContainer container;
         private static Logger Log;

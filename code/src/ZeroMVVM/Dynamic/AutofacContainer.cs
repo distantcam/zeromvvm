@@ -37,7 +37,7 @@ namespace ZeroMVVM.Dynamic
             foreach (var type in typesToRegister)
             {
                 // IoC.RegisterType(type)
-                registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(Default.IoC, type));
+                registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(ZAppRunner.Default.IoC, type));
 
                 // AsSelf()
                 limitType = registration.ActivatorData.Activator.LimitType;
@@ -47,7 +47,7 @@ namespace ZeroMVVM.Dynamic
             foreach (var type in viewModelTypesToRegister)
             {
                 // IoC.RegisterType(type)
-                registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(Default.IoC, type));
+                registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(ZAppRunner.Default.IoC, type));
 
                 // AsSelf()
                 limitType = registration.ActivatorData.Activator.LimitType;
@@ -58,7 +58,7 @@ namespace ZeroMVVM.Dynamic
                 {
                     var vmType = (Type)e.Instance.GetType();
 
-                    var attachments = ZAppRunner.ConventionManager.FindAll(Default.AttachmentConvention, vmType)
+                    var attachments = ZAppRunner.ConventionManager.FindAll(ZAppRunner.Default.AttachmentConvention, vmType)
                         .Where(t => resolutionExtensions.IsRegistered(e.Context, t))
                         .Select(t => (IAttachment)resolutionExtensions.Resolve(e.Context, t));
 
@@ -68,7 +68,7 @@ namespace ZeroMVVM.Dynamic
             }
 
             // IoC.RegisterType(typeof(WindowManager))
-            registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(Default.IoC, typeof(WindowManager)));
+            registration = new AutofacRegistrationHelper(registrationExtensions.RegisterType(ZAppRunner.Default.IoC, typeof(WindowManager)));
 
             // AsImplementedInterfaces()
             limitType = registration.ActivatorData.Activator.LimitType;

@@ -6,16 +6,13 @@ using ZeroMVVM;
 
 namespace FullExample
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public App()
         {
-            Default.Logger = l => LogManager.GetLogger(l);
+            ZAppRunner.Default.Logger = l => LogManager.GetLogger(l);
 
-            Default.IoC = new ContainerBuilder();
+            ZAppRunner.Default.IoC = new ContainerBuilder();
 
             ZAppRunner.Start<ShellViewModel>();
         }
