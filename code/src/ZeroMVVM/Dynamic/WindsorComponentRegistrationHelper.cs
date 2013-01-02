@@ -6,24 +6,13 @@ using System.Reflection;
 
 namespace ZeroMVVM.Dynamic
 {
-    public class AutofacRegistrationHelper : IDynamicMetaObjectProvider
+    internal class WindsorComponentRegistrationHelper : IDynamicMetaObjectProvider
     {
         private class MetaObject : DynamicMetaObject
         {
             public MetaObject(Expression expression, object value)
                 : base(expression, BindingRestrictions.Empty, value)
             {
-            }
-
-            public override DynamicMetaObject BindGetMember(GetMemberBinder binder)
-            {
-                Expression self = Expression.Convert(Expression, LimitType);
-
-                Expression[] parameters = new Expression[] { Expression.Constant(binder.Name) };
-
-                return new DynamicMetaObject(
-                    Expression.Call(self, typeof(AutofacRegistrationHelper).GetMethod("GetMember", BindingFlags.NonPublic | BindingFlags.Instance), parameters),
-                    BindingRestrictions.GetTypeRestriction(Expression, LimitType));
             }
 
             public override DynamicMetaObject BindInvokeMember(InvokeMemberBinder binder, DynamicMetaObject[] args)
@@ -35,15 +24,15 @@ namespace ZeroMVVM.Dynamic
                 parameters[1] = Expression.NewArrayInit(typeof(object), args.Select(dmo => dmo.Expression).ToArray());
 
                 return new DynamicMetaObject(
-                    Expression.Call(self, typeof(AutofacRegistrationHelper).GetMethod("InvokeMember", BindingFlags.NonPublic | BindingFlags.Instance), parameters),
+                    Expression.Call(self, typeof(WindsorComponentRegistrationHelper).GetMethod("InvokeMember", BindingFlags.NonPublic | BindingFlags.Instance), parameters),
                     BindingRestrictions.GetTypeRestriction(Expression, LimitType));
             }
         }
 
-        private readonly object instance;
+        private readonly dynamic instance;
         private readonly Type type;
 
-        public AutofacRegistrationHelper(object instance)
+        public WindsorComponentRegistrationHelper(dynamic instance)
         {
             this.instance = instance;
             this.type = instance.GetType();
@@ -54,13 +43,18 @@ namespace ZeroMVVM.Dynamic
             return new MetaObject(parameter, this);
         }
 
-        private object GetMember(string name)
+        private static dynamic Cast(Delegate source, Type type)
         {
-            PropertyInfo prop = type.GetProperty(name, BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public);
-            if (prop == null)
-                throw new NotSupportedException();
+            Delegate[] delegates = source.GetInvocationList();
+            if (delegates.Length == 1)
+                return Delegate.CreateDelegate(type,
+                    delegates[0].Target, delegates[0].Method);
 
-            return prop.GetValue(instance, null);
+            Delegate[] delegatesDest = new Delegate[delegates.Length];
+            for (int nDelegate = 0; nDelegate < delegates.Length; nDelegate++)
+                delegatesDest[nDelegate] = Delegate.CreateDelegate(type,
+                    delegates[nDelegate].Target, delegates[nDelegate].Method);
+            return Delegate.Combine(delegatesDest);
         }
 
         private object InvokeMember(string name, object[] args)
@@ -70,10 +64,17 @@ namespace ZeroMVVM.Dynamic
 
             if (method == null)
             {
-                if (name == "As")
+                if (name == "OnCreate")
                 {
-                    method = type.GetMethod(name, BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(Type[]) }, null);
-                    args = new object[] { args.OfType<Type>().ToArray() };
+                    var delegateType = Type.GetType("Castle.MicroKernel.LifecycleConcerns.LifecycleActionDelegate`1, Castle.Windsor");
+                    delegateType = delegateType.MakeGenericType(typeof(object));
+                    var delegateTypeArray = delegateType.MakeArrayType();
+
+                    method = type.GetMethod(name, BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public, null, new Type[] { delegateTypeArray }, null);
+                    var newargs = Array.CreateInstance(delegateType, args.Length);
+                    for (int i = 0; i < args.Length; i++)
+                        newargs.SetValue(Cast((Delegate)args[i], delegateType), i);
+                    args = new object[] { newargs };
                 }
             }
 

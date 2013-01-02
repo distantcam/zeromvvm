@@ -4,18 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{30255F0F-DD79-433E-BDAC-2D53D8DD0DC2}</ProjectGuid>
+    <ProjectGuid>{912081A5-E23F-4583-ADA6-A4C1E132EAAF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NinjectExample</RootNamespace>
-    <AssemblyName>NinjectExample</AssemblyName>
+    <RootNamespace>WindsorExample</RootNamespace>
+    <AssemblyName>WindsorExample</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <MSBuildCommunityTasksPath>$(SolutionDir)\Build</MSBuildCommunityTasksPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,8 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ninject">
-      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\packages\Castle.Core.3.1.0\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\..\packages\Castle.Windsor.3.1.0\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -59,12 +61,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="..\SimpleExample\UI\Child\ChildView.xaml.cs">
       <Link>UI\Child\ChildView.xaml.cs</Link>
-      <DependentUpon>ChildView.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\SimpleExample\UI\Child\ChildViewModel.cs">
       <Link>UI\Child\ChildViewModel.cs</Link>
@@ -74,7 +72,6 @@
     </Compile>
     <Compile Include="..\SimpleExample\UI\Shell\ShellView.xaml.cs">
       <Link>UI\Shell\ShellView.xaml.cs</Link>
-      <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\SimpleExample\UI\Shell\ShellViewModel.cs">
       <Link>UI\Shell\ShellViewModel.cs</Link>

@@ -110,6 +110,17 @@ namespace ZeroMVVM
                 return;
             }
 
+            if (iocType.Namespace.StartsWith("Castle.Windsor"))
+            {
+                if (iocType.Name != "IWindsorContainer" && iocType.GetInterface("IWindsorContainer") == null)
+                {
+                    Log.Error("To provide a default Castle.Windsor container set Default.IoC to an IKernel, or provide a custom IContainer.");
+                    throw new NotSupportedException();
+                }
+                container = new WindsorContainer(Default.IoC);
+                return;
+            }
+
             if (container == null)
             {
                 Log.Error("Could not set up IoC correctly. Consider providing a custom implementation of IContainer for your IoC.");

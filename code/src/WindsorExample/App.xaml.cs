@@ -1,15 +1,15 @@
 ﻿using System.Windows;
-using Ninject;
+using Castle.Windsor;
 using SimpleExample.UI.Shell;
 using ZeroMVVM;
 
-namespace NinjectExample
+namespace WindsorExample
 {
     public partial class App : Application
     {
         public App()
         {
-            ZAppRunner.Default.IoC = new StandardKernel();
+            ZAppRunner.Default.IoC = new WindsorContainer();
 
             ZAppRunner.Start<ShellViewModel>();
         }

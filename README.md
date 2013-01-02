@@ -51,6 +51,9 @@ To use your own IoC simply provide it to ZeroMVVM.
     
     // Ninject:
     ZAppRunner.Default.IoC = new Ninject.StandardKernel();
+
+	// Castle Windsor:
+	ZAppRunner.Default.IoC = new Castle.Windsor.WindsorContainer();
     
 ZeroMVVM will use whatever IoC you give it in the most obvious way. If you wish to provide your own IoC container you can do so by providing an implementation of IContainer.
 

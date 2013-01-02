@@ -54,6 +54,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Dynamic\NinjectContainer.cs" />
+    <Compile Include="Dynamic\WindsorComponentRegistrationHelper.cs" />
+    <Compile Include="Dynamic\WindsorContainer.cs" />
     <Compile Include="UIHelper.cs" />
     <Compile Include="ViewModelBinder.cs" />
     <Compile Include="XAML\BoolToVisibilityConverter.cs" />
