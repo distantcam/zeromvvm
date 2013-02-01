@@ -3,13 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{A6F659F5-6EB1-45B8-8128-E9D010D3A1CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5D818DEA-7310-46E7-92C8-8DD51CDF3B0A}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeroMVVM", "src\ZeroMVVM\ZeroMVVM.csproj", "{7B80AFD8-1113-41DD-8E30-D6B692570D7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullExample", "src\FullExample\FullExample.csproj", "{811B890D-BB8E-4C54-854C-1DEFFBD8EA79}"
@@ -17,11 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleExample", "src\SimpleExample\SimpleExample.csproj", "{0E3120F9-302B-45A4-A8E8-AAC250DF253A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjectExample", "src\NinjectExample\NinjectExample.csproj", "{30255F0F-DD79-433E-BDAC-2D53D8DD0DC2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{FBA21AC6-D300-4F1F-A636-FF289BC97B21}"
-	ProjectSection(SolutionItems) = preProject
-		Build\GenerateCommonAssemblyInfo.targets = Build\GenerateCommonAssemblyInfo.targets
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindsorExample", "src\WindsorExample\WindsorExample.csproj", "{912081A5-E23F-4583-ADA6-A4C1E132EAAF}"
 EndProject

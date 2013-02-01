@@ -9,6 +9,7 @@
     <AssemblyConfig></AssemblyConfig>
 
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)..\..\..\</SolutionDir>
+    <MSBuildCommunityTasksPath>$(SolutionDir)Tools\MSBuild.Community.Tasks</MSBuildCommunityTasksPath>
 
     <ApplicationVersion>$(CurrentVersion).0</ApplicationVersion>
 
@@ -17,6 +18,8 @@
       $(BuildDependsOn);
     </BuildDependsOn>
   </PropertyGroup>
+
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
 
   <Target Name="GenerateCommonAssemblyInfo">
     <PropertyGroup>
