@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace ZeroMVVM.Dynamic
 {
-    public class AutofacRegistrationHelper : IDynamicMetaObjectProvider
+    internal class AutofacRegistrationHelper : IDynamicMetaObjectProvider
     {
         private class MetaObject : DynamicMetaObject
         {

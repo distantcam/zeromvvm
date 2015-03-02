@@ -1,5 +1,4 @@
-﻿[assembly: ReleaseDateAttribute("2015-03-02", "2015-03-02")]
-[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.5", FrameworkDisplayName=".NET Framework 4.5")]
+﻿[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.5", FrameworkDisplayName=".NET Framework 4.5")]
 [assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://zeromvvm.github.com/", "ZeroMVVM.XAML")]
 
 namespace ZeroMVVM
@@ -44,10 +43,6 @@ namespace ZeroMVVM
         public virtual System.Threading.Tasks.Task<bool> CanCloseAsync() { }
         public virtual void TryClose() { }
     }
-    public class static ViewModelBinder
-    {
-        public static void Bind(System.Windows.FrameworkElement view, object viewModel) { }
-    }
     public class static WindowManager
     {
         public static System.Nullable<bool> ShowDialog(object viewModel) { }
@@ -89,18 +84,6 @@ namespace ZeroMVVM.Conventions
     public class ViewModelConvention : Conventional.Conventions.Convention
     {
         public ViewModelConvention() { }
-    }
-}
-namespace ZeroMVVM.Dynamic
-{
-    
-    public class AutofacRegistrationHelper : System.Dynamic.IDynamicMetaObjectProvider
-    {
-        public AutofacRegistrationHelper(object instance) { }
-    }
-    public class StaticMembersDynamicWrapper : System.Dynamic.IDynamicMetaObjectProvider
-    {
-        public StaticMembersDynamicWrapper(System.Type type) { }
     }
 }
 namespace ZeroMVVM.XAML

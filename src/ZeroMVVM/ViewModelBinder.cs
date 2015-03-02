@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace ZeroMVVM
 {
-    public static class ViewModelBinder
+    internal static class ViewModelBinder
     {
         private static Logger Log = ZAppRunner.GetLogger(typeof(ViewModelBinder));
 

@@ -18,6 +18,9 @@ namespace ZeroMVVM
 
         public void Setup(IEnumerable<Type> typesToRegister, IEnumerable<Type> viewModelTypesToRegister)
         {
+            typesToRegister.Apply(container.Register);
+            viewModelTypesToRegister.Apply(container.Register);
+
             this.viewModelTypes = new HashSet<Type>(viewModelTypesToRegister);
         }
 

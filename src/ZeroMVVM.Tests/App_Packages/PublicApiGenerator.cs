@@ -386,7 +386,8 @@ namespace ApiApprover
             "System.Reflection.AssemblyInformationalVersionAttribute",
             "System.Reflection.AssemblyProductAttribute",
             "System.Reflection.AssemblyTitleAttribute",
-            "System.Reflection.AssemblyTrademarkAttribute"
+            "System.Reflection.AssemblyTrademarkAttribute",
+            "ReleaseDateAttribute"
         };
 
         private static bool ShouldIncludeAttribute(CustomAttribute attribute)

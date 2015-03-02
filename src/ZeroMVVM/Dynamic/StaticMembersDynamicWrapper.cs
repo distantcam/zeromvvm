@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace ZeroMVVM.Dynamic
 {
-    public class StaticMembersDynamicWrapper : IDynamicMetaObjectProvider
+    internal class StaticMembersDynamicWrapper : IDynamicMetaObjectProvider
     {
         private class MetaObject : DynamicMetaObject
         {

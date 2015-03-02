@@ -64,6 +64,7 @@
     <Compile Include="Dynamic\StaticMembersDynamicWrapper.cs" />
     <Compile Include="Dynamic\WindsorComponentRegistrationHelper.cs" />
     <Compile Include="Dynamic\WindsorContainer.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="LightInject\LightInject.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
