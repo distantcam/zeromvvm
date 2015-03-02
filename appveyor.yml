@@ -6,10 +6,10 @@ install:
   - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 
 before_build:
-  - nuget restore src\Pirac.sln
+  - nuget restore src\ZeroMVVM.sln
 
 build:
   parallel: true
 
 artifacts:
-  - path: src\Pirac\bin\Release\*.nupkg
+  - path: src\ZeroMVVM\bin\Release\*.nupkg
