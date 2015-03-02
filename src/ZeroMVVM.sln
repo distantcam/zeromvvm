@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleExample", "SimpleExam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullExample", "FullExample\FullExample.csproj", "{00803596-7DF3-4D1A-B53A-1A6F2824E9BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeroMVVM.Tests", "ZeroMVVM.Tests\ZeroMVVM.Tests.csproj", "{CA764C5A-A087-4416-B389-825484FB6708}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{00803596-7DF3-4D1A-B53A-1A6F2824E9BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00803596-7DF3-4D1A-B53A-1A6F2824E9BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00803596-7DF3-4D1A-B53A-1A6F2824E9BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA764C5A-A087-4416-B389-825484FB6708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA764C5A-A087-4416-B389-825484FB6708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA764C5A-A087-4416-B389-825484FB6708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA764C5A-A087-4416-B389-825484FB6708}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

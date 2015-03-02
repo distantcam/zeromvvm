@@ -64,10 +64,10 @@
     <Compile Include="Dynamic\StaticMembersDynamicWrapper.cs" />
     <Compile Include="Dynamic\WindsorComponentRegistrationHelper.cs" />
     <Compile Include="Dynamic\WindsorContainer.cs" />
+    <Compile Include="LightInject\LightInject.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen.cs" />
-    <Compile Include="TinyIoC.cs" />
     <Compile Include="UIHelper.cs" />
     <Compile Include="ViewModelBinder.cs" />
     <Compile Include="WindowManager.cs" />
